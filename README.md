@@ -9,7 +9,9 @@ To avoid cutting-and-pasting, editing and other error-inducing activities while 
 
 ### Usage:
 
-`php preparecms.php *filename*`
+`
+php preparecms.php filename
+`
 
 where *filename* is the monthly report you downloaded from your YouTube CMS.
 
