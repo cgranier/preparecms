@@ -19,7 +19,7 @@ if ($argc < 2) {
     echo "+-------------------------------+\n";
     echo "+ ERROR: Insufficient arguments +\n";
     echo "+ USAGE:                        +\n";
-    echo "+ php preparecms.php filename     +\n";
+    echo "+ php preparecms.php filename   +\n";
     echo "+-------------------------------+\n\n";
 }
 else {
