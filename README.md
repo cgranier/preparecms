@@ -1,12 +1,14 @@
-preparecms - A tool to read YouTube CMS monthly reports and split data into separate csv files that are easier to import into a SQL database.
-============================
+preparecms
+==========
+
+### A tool to read YouTube CMS monthly reports and split data into separate csv files that are easier to import into a SQL database.
 
 YouTube generates monthly reports for its CMS accounts with detailed activity for every video. Unfortunately, the csv file offered by YouTube has four different sections within the same file. They are also a pain to read in Excel because some videos have IDs that begin with a minus sign and Excel interprets them as numbers or errors.
 
 To avoid cutting-and-pasting, editing and other error-inducing activities while adding the data to our database, I created this tool.
 
 It does five things:
-============================
+====================
 
 1. Reads a YouTube CMS monthly report csv filed from the command line and extracts the proper month and year.
 2. Makes sure the file format has not changed by comparing each section's headers with a pre-defined list.
