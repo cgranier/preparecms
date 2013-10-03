@@ -17,10 +17,10 @@ It does five things:
 It outputs four files:
 ============================
 
-YYYYMM_monthlyTotals_.csv
-YYYYMM_geoTotals_.csv
-YYYYMM_dailyTotals_.csv
-YYYYMM_videoTotals.csv
+* YYYYMM_monthlyTotals_.csv
+* YYYYMM_geoTotals_.csv
+* YYYYMM_dailyTotals_.csv
+* YYYYMM_videoTotals.csv
 
 What it's not:
 ============================
