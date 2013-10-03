@@ -7,8 +7,15 @@ YouTube generates monthly reports for its CMS accounts with detailed activity fo
 
 To avoid cutting-and-pasting, editing and other error-inducing activities while adding the data to our database, I created this tool.
 
-It does five things:
-====================
+### Usage:
+
+`php preparecms.php *filename*`
+
+where *filename* is the monthly report you downloaded from your YouTube CMS.
+
+NOTE: YouTube gives you a zipped report to download. Extract the csv from zip file and use that.
+
+### It does five things:
 
 1. Reads a YouTube CMS monthly report csv filed from the command line and extracts the proper month and year.
 2. Makes sure the file format has not changed by comparing each section's headers with a pre-defined list.
@@ -16,21 +23,18 @@ It does five things:
 4. Swaps the header fields for a pre-defined list of database-friendly headers.
 5. Parses the Daily Totals, Geo Totals and Video Totals sections, generating separate csv files and adding the month and year columns where appropriate.
 
-It outputs four files:
-============================
+### It outputs four files:
 
 * YYYYMM_monthlyTotals_.csv
 * YYYYMM_geoTotals_.csv
 * YYYYMM_dailyTotals_.csv
 * YYYYMM_videoTotals.csv
 
-What it's not:
-============================
+### What it's not:
 
 It's not an example of proper programming practices or cutting-edge techniques. It's down and dirty. It works. I hadn't programmed in a while. Thus, comments and suggestions are welcome.
 
-What might change:
-============================
+### What might change:
 
 I think I could swap most of the file writing code for a function. I just need to sit down and think about it some more.
 
