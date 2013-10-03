@@ -9,13 +9,11 @@ To avoid cutting-and-pasting, editing and other error-inducing activities while 
 
 ### Usage:
 
-`
-php preparecms.php filename
-`
+`php preparecms.php filename`
 
 where *filename* is the monthly report you downloaded from your YouTube CMS.
 
-NOTE: YouTube gives you a zipped report to download. Extract the csv from zip file and use that.
+NOTE: YouTube gives you a zipped report to download. Extract the csv from the zip file and use that.
 
 ### It does five things:
 
