@@ -17,7 +17,7 @@ NOTE: YouTube gives you a zipped report to download. Extract the csv from the zi
 
 ### It does five things:
 
-1. Reads a YouTube CMS monthly report csv filed from the command line and extracts the proper month and year.
+1. Reads a YouTube CMS monthly report csv filed from the command line and extracts the proper month, year and cms account name.
 2. Makes sure the file format has not changed by comparing each section's headers with a pre-defined list.
 3. Combines the Total Views, Total Earnings and Gross Revenues sections into one csv file, adding a month and a year column.
 4. Swaps the header fields for a pre-defined list of database-friendly headers.
@@ -38,4 +38,4 @@ It's not an example of proper programming practices or cutting-edge techniques. 
 
 I think I could swap most of the file writing code for a function. I just need to sit down and think about it some more.
 
-Since I have two CMS accounts with YouTube, I will probably add code to read data from both accounts and add a column to identify the account. This way, I could import both accounts into one database and create both individual and combined reports.
+DONE: Since I have two CMS accounts with YouTube, I will probably add code to read data from both accounts and add a column to identify the account. This way, I could import both accounts into one database and create both individual and combined reports.

@@ -33,6 +33,7 @@ else {
     $month = intval(substr($matches[0][0],4,2));
     // This could be optimized
     $filenameDate = substr($matches[0][0],0,4) . substr($matches[0][0],4,2);
+    $cmsAccount = substr($filename,8,11);
 
     // Read the YouTube CMS Report file into $data
     if (($handle = fopen($filename, "r")) !== FALSE) {
@@ -50,10 +51,10 @@ else {
 
     // These are the sanitized fieldnames we will use in the final csv files to make importing
     // into the SQL database easier.
-        $dbHeadersMonthlyTotals = array("totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","netYouTubeSoldRevenue","netAdSenseSoldRevenue","estimatedRPM","grossRevenue","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","year","month");
-        $dbHeadersDailyTotals = array("date","contentType","policy","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue");
-        $dbHeadersGeoTotals = array("country","contentType","policy","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue","year","month");
-        $dbHeadersVideoTotals = array("videoId","contentType","policy","videoTitle","videoDuration","username","uploader","claimType","claimOrigin","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue","multipleClaims","category","assetId","channel","customId","year","month");
+        $dbHeadersMonthlyTotals = array("totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","netYouTubeSoldRevenue","netAdSenseSoldRevenue","estimatedRPM","grossRevenue","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","year","month","cmsAccount");
+        $dbHeadersDailyTotals = array("date","contentType","policy","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue","cmsAccount");
+        $dbHeadersGeoTotals = array("country","contentType","policy","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue","year","month","cmsAccount");
+        $dbHeadersVideoTotals = array("videoId","contentType","policy","videoTitle","videoDuration","username","uploader","claimType","claimOrigin","totalViews","watchPageViews","embeddedPlayerViews","channelPageVideoViews","liveViews","recordedViews","adEnabledViews","adRequestedViews","totalEarnings","grossYouTubeSoldRevenue","grossPartnerSoldRevenue","grossAdSenseSoldRevenue","estimatedRPM","netYouTubeSoldRevenue","netAdSenseSoldRevenue","multipleClaims","category","assetId","channel","customId","year","month","cmsAccount");
 
     // Create the MonthlyTotals data table and save as a csv file for importing it into SQL database
     // TABLE NAME: MonthlyTotals
@@ -77,9 +78,10 @@ else {
     // [14] Gross Partner-sold Revenue -> grossPartnerSoldRevenue
     // [15] Gross AdSense-sold Revenue -> grossAdSenseSoldRevenue
 
-    // We will add two fields:
-    // [17] year = parse file name for current year
-    // [16] month = parse file name for current month
+    // We will add three fields:
+    // [16] year = parse file name for current year
+    // [17] month = parse file name for current month
+    // [18] cmsAccount = the cms account the data belongs to
 
         $row = 0;
         while ($data[$row][0] !== "Totals") {
@@ -126,8 +128,8 @@ else {
             echo "+ DO NOT MATCH MODEL            +\n";
             echo "+-------------------------------+\n\n";
         } else {
-            // add the year and month to the data
-            array_push($dataMonthlyTotals, $year, $month); 
+            // add the year, month and cms account to the data
+            array_push($dataMonthlyTotals, $year, $month, $cmsAccount); 
             if ($debugFlag) { print_r($headerMonthlyTotals); }
             if ($debugFlag) { print_r($dataMonthlyTotals); }
             if ($debugFlag) { echo "\n"; }
@@ -165,6 +167,9 @@ else {
     // [16] Net YouTube-sold Revenue -> netYouTubeSoldRevenue
     // [17] Net AdSense-sold Revenue -> netAdSenseSoldRevenue
 
+    // We will add one field
+    // [18] cmsAccount = the cms account the data belongs to
+
         // create the header
         $headerDailyTotals = $data[$row];
         if ($debugFlag) { print_r($headerDailyTotals); }
@@ -195,6 +200,7 @@ else {
             $fp = fopen($dailyTotalsFilename, 'w');
                 fputcsv($fp, $dbHeadersDailyTotals);
                 foreach($dataDailyTotals as $rowData) {
+                    array_push($rowData, $cmsAccount);
                     fputcsv($fp, $rowData);
                     echo ".";
                 }
@@ -224,9 +230,10 @@ else {
     // [16] Net YouTube-sold Revenue -> netYouTubeSoldRevenue
     // [17] Net AdSense-sold Revenue -> netAdSenseSoldRevenue
 
-    // We will add two fields:
+    // We will add three fields:
     // [18] year = parse file name for current year
     // [19] month = parse file name for current month
+    // [20] cmsAccount = the cms account the data belongs to
 
         $headerGeoTotals = $data[$row];
         if ($debugFlag) { print_r($headerGeoTotals); }
@@ -257,7 +264,7 @@ else {
             $fp = fopen($geoTotalsFilename, 'w');
                 fputcsv($fp, $dbHeadersGeoTotals);
                 foreach($dataGeoTotals as $rowData) {
-                    array_push($rowData, $year, $month); 
+                    array_push($rowData, $year, $month, $cmsAccount); 
                     fputcsv($fp, $rowData);
                     echo ".";
                 }
@@ -298,9 +305,10 @@ else {
     // [27] Channel -> channel
     // [28] Custom ID -> customId
 
-    // We will add two fields:
+    // We will add three fields:
     // [29] year = parse file name for current year
     // [30] month = parse file name for current month
+    // [31] cmsAccount = the cms account the data belongs to
 
         $headerVideoTotals = $data[$row];
         if ($debugFlag) { print_r($headerVideoTotals); }
@@ -333,7 +341,7 @@ else {
             $fp = fopen($videoTotalsFilename, 'w');
                 fputcsv($fp, $dbHeadersVideoTotals);
                 foreach($dataVideoTotals as $rowData) {
-                    array_push($rowData, $year, $month); 
+                    array_push($rowData, $year, $month, $cmsAccount); 
                     fputcsv($fp, $rowData);
                     echo ".";
                 }
